@@ -2,7 +2,7 @@ package com.nowcoder.nowcommunity.dao;
 
 import com.nowcoder.nowcommunity.entity.User;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 
 /**
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
  * 需要注意的是：这个接口中不可以定义同名的方法，因为会生成相同的id
  * 也就是说这个接口是不支持重载的
  */
+@Repository
 @Mapper
 public interface UserMapper {
 
@@ -27,4 +28,6 @@ public interface UserMapper {
     int updateHeader(int id,String headerUrl);
 
     int updatePassword(int id,String password);
+
+    int updateSalt(int id,String salt);
 }

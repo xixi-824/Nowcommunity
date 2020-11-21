@@ -1,8 +1,9 @@
 package com.nowcoder.nowcommunity;
 
 import com.nowcoder.nowcommunity.dao.DiscussPostMapper;
+import com.nowcoder.nowcommunity.dao.LoginTicketMapper;
 import com.nowcoder.nowcommunity.dao.UserMapper;
-import com.nowcoder.nowcommunity.entity.DiscussPost;
+import com.nowcoder.nowcommunity.entity.LoginTicket;
 import com.nowcoder.nowcommunity.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.PostConstruct;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author lei
@@ -30,6 +29,9 @@ public class MapperTest {
 
     @Autowired
     private DiscussPostMapper discussPostMapper;
+
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
 
     @Test
     public void testSelectByUser(){
@@ -71,13 +73,24 @@ public class MapperTest {
     }
 
     @Test
-    public void testASelectPosts(){
-        List<DiscussPost> list = discussPostMapper.selectDiscussPosts(102,0,10);
-        for (DiscussPost discussPost:list){
-            System.out.println(discussPost);
-        }
+    public void testInsertLoginTicket(){
+        LoginTicket ticket = new LoginTicket();
+        ticket.setStatus(0);
+        ticket.setTicket("def");
+        ticket.setExpired(new Date(System.currentTimeMillis() + 1000 * 60 *10));
 
-        int rows = discussPostMapper.selectDiscussPostRows(103);
-        System.out.println(rows);
+        loginTicketMapper.insertLoginTicket(ticket);
+    }
+
+    @Test
+//    @Transactional(rollbackFor = Throwable.class)
+    public void SelectAndUpdateLoginTicket(){
+        // 第一次查询，缓存至sqlsession中
+        LoginTicket loginTicket = loginTicketMapper.selectByTicket("def");
+        System.out.println(loginTicket);
+//        int abc = loginTicketMapper.updateStatus("def", 1);
+        // 第二次查询，直接读取一级缓存
+        loginTicket = loginTicketMapper.selectByTicket("def");
+        System.out.println(loginTicket);
     }
 }

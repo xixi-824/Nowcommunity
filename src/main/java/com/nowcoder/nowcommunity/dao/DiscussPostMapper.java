@@ -3,6 +3,7 @@ package com.nowcoder.nowcommunity.dao;
 import com.nowcoder.nowcommunity.entity.DiscussPost;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 
 @Mapper
+@Repository
 public interface DiscussPostMapper {
 
     // 动态SQL

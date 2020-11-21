@@ -15,7 +15,7 @@
     <header class="bg-dark sticky-top">
         <div class="container">
             <!-- 导航 -->
-            <nav class="navbar navbar-expand-lg navbar-dark">
+            <nav class="navbar navbar-expand-lg navbar-dark" th:fragment="header">
                 <!-- logo -->
                 <a class="navbar-brand" href="#"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -27,30 +27,30 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item ml-3 btn-group-vertical">
-                            <a class="nav-link" href="index.html">首页</a>
+                            <a class="nav-link" th:href="@{/index}">首页</a>
                         </li>
                         <li class="nav-item ml-3 btn-group-vertical">
-                            <a class="nav-link position-relative" href="site/letter.html">消息<span
+                            <a class="nav-link position-relative" href="site/letter.html" th:if="${loginUser!=null}">消息<span
                                     class="badge badge-danger">12</span></a>
                         </li>
-                        <li class="nav-item ml-3 btn-group-vertical">
-                            <a class="nav-link" href="site/register.html">注册</a>
+                        <li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser==null}">
+                            <a class="nav-link" th:href="@{/register}">注册</a>
                         </li>
-                        <li class="nav-item ml-3 btn-group-vertical">
-                            <a class="nav-link" href="site/login.html">登录</a>
+                        <li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser==null}">
+                            <a class="nav-link" th:href="@{/login}">登录</a>
                         </li>
-                        <li class="nav-item ml-3 btn-group-vertical dropdown">
+                        <li class="nav-item ml-3 btn-group-vertical dropdown" th:if="${loginUser!=null}">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="http://images.nowcoder.com/head/1t.png" class="rounded-circle"
+                                <img th:src="${loginUser.headerUrl}" class="rounded-circle"
                                      style="width:30px;"/>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item text-center" href="site/profile.html">个人主页</a>
-                                <a class="dropdown-item text-center" href="site/setting.html">账号设置</a>
-                                <a class="dropdown-item text-center" href="site/login.html">退出登录</a>
+                                <a class="dropdown-item text-center" th:href="@{/user/setting}">账号设置</a>
+                                <a class="dropdown-item text-center" th:href="@{/logout}">退出登录</a>
                                 <div class="dropdown-divider"></div>
-                                <span class="dropdown-item text-center text-secondary">nowcoder</span>
+                                <span class="dropdown-item text-center text-secondary" th:utext="${loginUser.username}">nowcoder</span>
                             </div>
                         </li>
                     </ul>
@@ -153,7 +153,7 @@
                 </li>
             </ul>
             <!-- 分页 -->
-            <nav class="mt-5" th:if="${page.rows>0}">
+            <nav class="mt-5" th:if="${page.rows>0}" th:fragment="pagination">
                 <ul class="pagination justify-content-center">
                     <li class="page-item">
                         <!-- @{${page.path}(current=1)}
@@ -245,11 +245,11 @@
     </footer>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        crossorigin="anonymous"></script>
+<!-- 导入静态资源 -->
+<script  src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-<script th:src="@{/js/global.js}"></script>
-<script th:src="@{js/index.js}"></script>
+<script type="text/javascript" th:src="@{/js/global.js}"></script>
+<script type="text/javascript" th:src="@{/js/index.js}"></script>
 </body>
 </html>
