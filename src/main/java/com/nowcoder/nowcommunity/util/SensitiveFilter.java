@@ -34,12 +34,12 @@ public class SensitiveFilter {
     public void init() {
         try (
                 InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream("sensitive-words.txt");
-                BufferedReader reader = new BufferedReader(new InputStreamReader(resourceAsStream));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(resourceAsStream))
         ) {
             String keywords = null;
             while ((keywords = reader.readLine()) != null) {
                 // 将关键敏感词加入前缀树
-
+                addKeyword(keywords);
             }
         } catch (IOException e) {
             logger.error("敏感词添加失败：" + e.getMessage());
@@ -78,7 +78,7 @@ public class SensitiveFilter {
      * @param text：过滤前的文本内容
      * @return
      */
-    public String getText(String text){
+    public String filter(String text){
         // 1、判断内容是否为空
         if(StringUtils.isBlank(text)){
             return null;
@@ -127,9 +127,11 @@ public class SensitiveFilter {
                 position++;
             }
 
-            // 最后一批字符装入结果集
-            sb.append(text.substring(begin));
+
         }
+
+        // 最后一批字符装入结果集
+        sb.append(text.substring(begin));
         return sb.toString();
     }
 
