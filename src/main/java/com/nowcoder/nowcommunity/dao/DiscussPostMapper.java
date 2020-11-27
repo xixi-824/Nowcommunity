@@ -12,9 +12,8 @@ import java.util.List;
  * @date 2020/7/27 10:30
  */
 
-
-@Mapper
 @Repository
+@Mapper
 public interface DiscussPostMapper {
 
     // 动态SQL
@@ -46,4 +45,19 @@ public interface DiscussPostMapper {
      * @return
      */
     int insertDiscussPost(DiscussPost discussPost);
+
+    /**
+     * 查询帖子的详情
+     * @param id
+     * @return
+     */
+    DiscussPost selectDiscussPostById(int id);
+
+    /**
+     * 更新帖子回复的数量
+     * @param id
+     * @param commentCount
+     * @return
+     */
+    int updateCommentCount(int id,int commentCount);
 }

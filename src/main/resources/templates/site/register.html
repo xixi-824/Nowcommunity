@@ -84,7 +84,7 @@
 								   th:class="|form-control ${passwordMsg != null ? 'is-invalid':''}|"
 								   id="password" th:value="${user != null ? user.password:''}"
 								   name="password" placeholder="请输入您的密码!" required>
-							<div class="invalid-feedback" th:value="${passwordMsg}">
+							<div class="invalid-feedback" id="passwordMsg" th:value="${passwordMsg}">
 								密码长度不能小于8位!
 							</div>
 							<div style="color: green" id="passwordSuccessMsg"></div>
@@ -97,7 +97,7 @@
 								   th:class="|form-control ${confirmPasswordMsg != null ? 'is-invalid':''}|"
 								   id="confirmPassword" name="confirmPassword"
 								   placeholder="请再次输入密码!" required>
-							<div class="invalid-feedback" th:value="${confirmPasswordMsg}">
+							<div class="invalid-feedback" id="confirmPasswordMsg" th:value="${confirmPasswordMsg}">
 								两次输入的密码不一致!
 							</div>
 							<div style="color: green" id="confirmPasswordSuccessMsg"></div>

@@ -146,6 +146,7 @@ public class UserController {
         }
     }
 
+    @LoginRequired
     @RequestMapping(value = "/updatePassword",method = RequestMethod.POST)
     public String updatePassword(String oldPassword,String newPassword,String confirmPassword,Model model){
         Map<String, String> map = userService.updatePassword(oldPassword, newPassword, confirmPassword);
@@ -153,11 +154,15 @@ public class UserController {
             // 密码修改成功
             // 请求重定向至首页
             return "redirect:/index";
+        }else if(map.get("LoginError") != null){
+            // 当前用户未登录
+            model.addAttribute("LoginError",map.get("LoginError"));
+            // 请求重定向至用户登录界面
+            return "redirect:/login";
         }else{
             model.addAttribute("oldPasswordError",map.get("oldPasswordError"));
             model.addAttribute("newPasswordError",map.get("newPasswordError"));
             model.addAttribute("confirmPasswordError",map.get("confirmPasswordError"));
-            // 请求转发至用户设置界面
             return "/site/setting";
         }
     }

@@ -2,8 +2,11 @@ package com.nowcoder.nowcommunity;
 
 import com.nowcoder.nowcommunity.dao.DiscussPostMapper;
 import com.nowcoder.nowcommunity.dao.LoginTicketMapper;
+import com.nowcoder.nowcommunity.dao.MessageMapper;
 import com.nowcoder.nowcommunity.dao.UserMapper;
+import com.nowcoder.nowcommunity.entity.DiscussPost;
 import com.nowcoder.nowcommunity.entity.LoginTicket;
+import com.nowcoder.nowcommunity.entity.Message;
 import com.nowcoder.nowcommunity.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author lei
@@ -32,6 +36,9 @@ public class MapperTest {
 
     @Autowired
     private LoginTicketMapper loginTicketMapper;
+
+    @Autowired
+    private MessageMapper messageMapper;
 
     @Test
     public void testSelectByUser(){
@@ -92,5 +99,37 @@ public class MapperTest {
         // 第二次查询，直接读取一级缓存
         loginTicket = loginTicketMapper.selectByTicket("def");
         System.out.println(loginTicket);
+    }
+
+    @Test
+    public void InsertDiscussPost(){
+        DiscussPost discussPost = new DiscussPost();
+        discussPost.setUserId(184);
+        discussPost.setContent("哈哈哈!");
+        discussPost.setCreateTime(new Date());
+        discussPost.setTitle("插入帖子测试帖");
+        discussPostMapper.insertDiscussPost(discussPost);
+    }
+
+    @Test
+    public void tesSelectLetters(){
+        List<Message> list = messageMapper.selectConversation(111, 0, 20);
+        for (Message message : list) {
+            System.out.println(message);
+        }
+
+        int count = messageMapper.selectConversationCount(111);
+        System.out.println(count);
+
+        list = messageMapper.selectLetters("111_112", 0, 10);
+        for (Message message : list) {
+            System.out.println(message);
+        }
+
+        count = messageMapper.selectLetterCount("111_112");
+        System.out.println(count);
+
+        count = messageMapper.selectLetterUnreadCount(131,"111_131");
+        System.out.println(count);
     }
 }

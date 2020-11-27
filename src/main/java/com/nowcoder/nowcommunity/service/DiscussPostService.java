@@ -52,4 +52,23 @@ public class DiscussPostService {
         // 3、插入帖子数据
         return discussPostMapper.insertDiscussPost(discussPost);
     }
+
+    /**
+     * 根据帖子的id查询帖子详情
+     * @param id
+     * @return
+     */
+    public DiscussPost findDiscussPostById(int id){
+        return discussPostMapper.selectDiscussPostById(id);
+    }
+
+    /**
+     * 更新帖子评论的数量
+     * @param id 帖子id
+     * @param commentCount 更新后的帖子评论数量
+     * @return
+     */
+    public int updateCommentCount(int id,int commentCount){
+        return discussPostMapper.updateCommentCount(id,commentCount);
+    }
 }

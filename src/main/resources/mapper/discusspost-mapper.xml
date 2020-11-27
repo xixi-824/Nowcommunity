@@ -8,9 +8,9 @@
     </sql>
 
     <sql id="insertFields">
-        user_id,title,content,`type`,status,create_time,comment_count,score
+        user_id,title,content,type,status,create_time,comment_count,score
     </sql>
-    
+
     <select id="selectDiscussPosts" resultType="DiscussPost">
         select <include refid="selectFields"></include>
         from discuss_post
@@ -35,8 +35,18 @@
         </where>
     </select>
 
-    <insert id="insertDiscussPost" parameterType="DiscussPort">
-        insert into discuss_port <include refid="insertFields"></include>
+    <insert id="insertDiscussPost" parameterType="discussPost" useGeneratedKeys="true" keyProperty="id">
+        insert into discuss_post (<include refid="insertFields"></include>)
         values(#{userId},#{title},#{content},#{type},#{status},#{createTime},#{commentCount},#{score})
     </insert>
+
+    <select id="selectDiscussPostById" resultType="discussPost">
+        select <include refid="selectFields"></include>
+        from  discuss_post
+        where id = #{id}
+    </select>
+
+    <update id="updateCommentCount">
+        update discuss_post set comment_count = #{commentCount} where id = #{id}
+    </update>
 </mapper>
