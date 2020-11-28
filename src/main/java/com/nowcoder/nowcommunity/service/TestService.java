@@ -28,10 +28,10 @@ public class TestService {
         return user;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED,propagation = Propagation.REQUIRES_NEW)
+    @Transactional(isolation = Isolation.READ_COMMITTED,propagation = Propagation.NESTED)
     public Object save1(){
         // 新增用户
-
+        Integer.valueOf("abc");
         // 插入数据后设置主键
         userMapper.insertUser(getUser());
 

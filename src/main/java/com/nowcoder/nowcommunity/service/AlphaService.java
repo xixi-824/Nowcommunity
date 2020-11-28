@@ -88,7 +88,8 @@ public class AlphaService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED,propagation = Propagation.REQUIRED)
     public Object save2(){
-
+        System.out.println(userMapper.selectById(101));
+        // 嵌套子事务
         try {
             // ServiceA.method B()
             testService.save1();
@@ -104,7 +105,7 @@ public class AlphaService {
         post.setContent("新人报到!");
         post.setCreateTime(new Date());
         discussPostMapper.insertDiscussPost(post);
-        Integer.valueOf("abc");
+//        Integer.valueOf("abc");
         return "ok";
     }
 

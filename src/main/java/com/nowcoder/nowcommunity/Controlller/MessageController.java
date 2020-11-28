@@ -41,7 +41,7 @@ public class MessageController {
     @RequestMapping(path = "/letter/list",method = RequestMethod.GET)
     public String getLetterList(Model model, Page page){
         // 错误模拟
-        Integer.valueOf("abc");
+//        Integer.valueOf("abc");
 
         User user = hostHolder.getUser();
         // 分页信息
