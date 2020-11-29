@@ -80,7 +80,7 @@
             </h6>
             <!-- 作者 -->
             <div class="media pb-3 border-bottom">
-                <a href="profile.html">
+                <a th:href="@{|/user/profile/${user.id}|}">
                     <img th:src="${user.headerUrl}" class="align-self-start mr-4 rounded-circle user-header" alt="用户头像">
                 </a>
                 <div class="media-body">
@@ -88,7 +88,11 @@
                     <div class="text-muted mt-3">
                         发布于 <b th:text="${#dates.format(post.createTime,'yyyy-MM-dd HH:mm:ss')}">2019-04-15 15:32:18</b>
                         <ul class="d-inline float-right">
-                            <li class="d-inline ml-2"><a href="#" class="text-primary">赞 11</a></li>
+                            <li class="d-inline ml-2">
+                                <a href="javascript:;" th:onclick="|like(this,1,${post.id},${post.userId});|" class="text-primary">
+                                    <b th:text="${likeStatus == 1? '已赞':'赞'}">赞</b> <i th:text="${likeCount}">11</i>
+                                </a>
+                            </li>
                             <li class="d-inline ml-2">|</li>
                             <li class="d-inline ml-2"><a href="#replyform" class="text-primary">回帖 <i
                                     th:text="${post.commentCount}">7</i></a></li>
@@ -120,7 +124,7 @@
             <!-- 回帖列表 -->
             <ul class="list-unstyled mt-4">
                 <li class="media pb-3 pt-3 mb-3 border-bottom" th:each="cvo:${comments}">
-                    <a href="profile.html">
+                    <a th:href="@{|/user/profile/${cvo.user.id}|}">
                         <img th:src="${cvo.user.headerUrl}" class="align-self-start mr-4 rounded-circle user-header"
                              alt="用户头像">
                     </a>
@@ -138,7 +142,11 @@
 								<span>发布于
 									<b th:text="${#dates.format(cvo.comment.createTime,'yyyy-MM-dd HH:mm:ss')}">2019-04-15 15:32:18</b></span>
                             <ul class="d-inline float-right">
-                                <li class="d-inline ml-2"><a href="#" class="text-primary">赞(1)</a></li>
+                                <li class="d-inline ml-2">
+                                    <a href="javascript:;" th:onclick="|like(this,2,${cvo.comment.id},${cvo.comment.userId});|" class="text-primary">
+                                        <b th:text="${cvo.likeStatus == 1 ? '已赞':'赞'}">赞</b>(<i th:text="${cvo.likeCount}">1</i>)
+                                    </a>
+                                </li>
                                 <li class="d-inline ml-2">|</li>
                                 <li class="d-inline ml-2">
                                     <a href="#" class="text-primary">
@@ -166,16 +174,20 @@
                                 <div class="mt-3">
                                     <span th:text="${#dates.format(rvo.reply.createTime,'yyyy-MM-dd HH:mm:ss')}">2019-04-15 15:32:18</span>
                                     <ul class="d-inline float-right">
-                                        <li class="d-inline ml-2"><a href="#" class="text-primary">赞(1)</a></li>
+                                        <li class="d-inline ml-2">
+                                            <a href="javascript:;" th:onclick="|like(this,2,${rvo.reply.id},${rvo.reply.userId})|" class="text-primary">
+                                                <b th:text="${rvo.likeStatus == 1 ? '已赞':'赞'}">赞</b>(<i th:text="${rvo.likeCount}">1</i>)
+                                            </a>
+                                        </li>
                                         <li class="d-inline ml-2">|</li>
                                         <li class="d-inline ml-2"><a th:href="|#huifu-${rvoStat.count}|"
-                                                                     data-toggle="collapse" class="text-primary" th:if="${rvo.user.id != loginUser.id}">回复</a>
+                                                                     data-toggle="collapse" class="text-primary">回复</a>
                                         </li>
                                     </ul>
                                     <div th:id="|huifu-${rvoStat.count}|" class="mt-4 collapse">
                                         <form method="post" th:action="@{|/comment/add/${post.id}|}">
                                             <div>
-                                                <input type="text" class="input-size" th:if="${rvo.user.id != loginUser.id}" th:placeholder="|回复${rvo.user.username}|" name="content"/>
+                                                <input type="text" class="input-size" th:placeholder="|回复${rvo.user.username}|" name="content"/>
 												<!--  使用隐藏框传输实体的类型及实体的id	-->
 												<input type="hidden" name="entityType" value="2">
                                                 <!--  对帖子的回复
@@ -311,5 +323,6 @@
         crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script th:src="@{/js/global.js}"></script>
+<script th:src="@{/js/discuss.js}"></script>
 </body>
 </html>
