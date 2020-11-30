@@ -19,7 +19,7 @@ public class LoginRequiredInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
+//        System.out.println("preHandler");
         // 仅针对具体方法进行拦截处理
         if(handler instanceof HandlerMethod){
             // 获取对应的方法

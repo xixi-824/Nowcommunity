@@ -5,8 +5,10 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 //@CacheNamespace(blocking = true)//开启二级缓存
+// 采用redis缓存用户登录凭证替代关系型数据库保存登录凭证
 @Mapper
 @Repository
+@Deprecated
 public interface LoginTicketMapper {
 
     /**
